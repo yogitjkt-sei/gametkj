@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Cepat Keren! ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Pengaturan Dasar dan Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif, Arial;
+            background: linear-gradient(135deg, #0f4c75, #3282b8); 
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.5s;
+        }
+
+        /* Container Utama */
+        .screen {
+            display: none;
+            width: 95%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .screen.active {
+            display: block;
+        }
+        
+        /* 🔥 DESAIN BARU UNTUK LOGO GAMBAR (IMG) 🔥 */
+        #logo-placeholder {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%; /* Membuat gambar logo menjadi lingkaran */
+            object-fit: cover; /* Memastikan gambar menutupi area tanpa terdistorsi */
+            padding: 8px; /* Padding di dalam lingkaran */
+            background-color: #ff5722; /* Warna latar belakang lingkaran logo */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(255, 255, 255, 0.2);
+            border: 2px solid #ffffff;
+        }
+        /* --------------------------------- */
+
+
+        /* Tombol Utama (Start, Play Again) */
+        .btn {
+            background-color: #ff5722; 
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px; 
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            margin-top: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #e64a19;
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+        }
+        
+        /* Input Nama */
+        #player-name {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Layar Kuis Header */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 0 5px;
+        }
+
+        /* Timer Bar */
+        #timer-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        #timer-bar-fill {
+            height: 100%;
+            width: 100%;
+            background-color: #ffee58; 
+            transition: width 0.1s linear;
+        }
+
+        /* Pertanyaan */
+        #question-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            min-height: 80px;
+            line-height: 1.4;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Grid Jawaban */
+        .answer-grid {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 12px;
+        }
+        @media (min-width: 500px) {
+            .answer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Tombol Jawaban */
+        .answer-btn {
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.1s, box-shadow 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: left;
+            min-height: 65px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .answer-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .answer-btn:disabled {
+            cursor: default;
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .answer-btn span:first-child {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            line-height: 1;
+        }
+        .answer-btn .answer-text {
+            flex-grow: 1;
+        }
+
+        /* Warna Tombol Jawaban (Dipersonalisasi) */
+        #btn-0 { background-color: #e53935; }
+        #btn-1 { background-color: #1e88e5; }
+        #btn-2 { background-color: #fdd835; color: #333;} 
+        #btn-3 { background-color: #43a047; }
+
+        /* Feedback (Koreksi) */
+        .answer-btn.correct {
+            background-color: #66bb6a !important; 
+            transform: scale(1.02);
+            border: 3px solid #ffee58;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .answer-btn.incorrect {
+            background-color: #ef5350 !important; 
+            opacity: 0.8;
+        }
+
+        /* Layar Hasil */
+        #results-screen h1 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+        #results-screen h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        #final-score {
+            font-size: 6rem;
+            color: #ffee58;
+            font-weight: 900;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="lobby-screen" class="screen active">
+        <img id="logo-placeholder" src="https://files.catbox.moe/j6ypiu.jpg" alt="Logo Kuis Anda">
+        <h1>Kuis Cepat Keren! ✨</h1>
+        <input type="text" id="player-name" placeholder="Masukkan nama Anda..." required>
+        <button id="join-btn" class="btn">Mulai Kuis!</button>
+    </div>
+
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+            <div class="question-info">
+                Soal <span id="question-count">1 / 5</span>
+            </div>
+            <div class="score-info">
+                Skor: <span id="score">0</span>
+            </div>
+        </div>
+
+        <div id="timer-bar">
+            <div id="timer-bar-fill"></div>
+        </div>
+
+        <h2 id="question-title">Ini adalah teks pertanyaannya?</h2>
+
+        <div class="answer-grid">
+            <button class="answer-btn" id="btn-0">
+                <span>A</span> <span class="answer-text">Jawaban 1</span>
+            </button>
+            <button class="answer-btn" id="btn-1">
+                <span>B</span> <span class="answer-text">Jawaban 2</span>
+            </button>
+            <button class="answer-btn" id="btn-2">
+                <span>C</span> <span class="answer-text">Jawaban 3</span>
+            </button>
+            <button class="answer-btn" id="btn-3">
+                <span>D</span> <span class="answer-text">Jawaban 4</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="results-screen" class="screen">
+        <h1>🎉 Kuis Selesai! 🎉</h1>
+        <h2 id="player-name-final">Halo, Pemain!</h2>
+        <h3>Skor Akhir Anda:</h3>
+        <h1 id="final-score">0</h1>
+        <button id="play-again-btn" class="btn">Main Lagi</button>
+    </div>
+
+
+    <script>
+        // --- DATABASE PERTANYAAN ---
+        const questions = [
+            {
+                question: "Which one is NOT a fruit?",
+                answers: [
+                    { text: "Apple", correct: false },
+                    { text: "Carrot", correct: true },
+                    { text: "Banana", correct: false },
+                    { text: "Orange", correct: false }
+                ]
+            },
+            {
+                question: "What is the capital city of Japan?",
+                answers: [
+                    { text: "Beijing", correct: false },
+                    { text: "Seoul", correct: false },
+                    { text: "Tokyo", correct: true },
+                    { text: "Bangkok", correct: false }
+                ]
+            },
+            {
+                question: "How many days are in a week?",
+                answers: [
+                    { text: "5", correct: false },
+                    { text: "6", correct: false },
+                    { text: "7", correct: true },
+                    { text: "8", correct: false }
+                ]
+            },
+            {
+                question: "What is 'dog' in Indonesian?",
+                answers: [
+                    { text: "Kucing", correct: false },
+                    { text: "Anjing", correct: true },
+                    { text: "Ikan", correct: false },
+                    { text: "Burung", correct: false }
+                ]
+            },
+            {
+                question: "What is 10 + 15?",
+                answers: [
+                    { text: "20", correct: false },
+                    { text: "30", correct: false },
+                    { text: "25", correct: true },
+                    { text: "15", correct: false }
+                ]
+            },
+            {
+                question: "Which planet is known as the 'Red Planet'?",
+                answers: [
+                    { text: "Jupiter", correct: false },
+                    { text: "Venus", correct: false },
+                    { text: "Mars", correct: true },
+                    { text: "Saturn", correct: false }
+                ]
+            }
+        ];
+
+        // --- PENGATURAN GAME ---
+        const QUESTION_TIME_LIMIT = 10;
+        const POINTS_PER_SECOND = 50;
+
+        // --- MENGAMBIL ELEMEN DARI HTML ---
+        const lobbyScreen = document.getElementById('lobby-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+
+        const joinButton = document.getElementById('join-btn');
+        const playAgainButton = document.getElementById('play-again-btn');
+
+        const playerNameInput = document.getElementById('player-name');
+        const playerNameFinal = document.getElementById('player-name-final');
+
+        const questionCountEl = document.getElementById('question-count');
+        const scoreEl = document.getElementById('score');
+        const questionTitleEl = document.getElementById('question-title');
+
+        const timerBarFill = document.getElementById('timer-bar-fill');
+
+        const answerButtons = document.querySelectorAll('.answer-btn');
+        const allAnswerButtons = [
+            document.getElementById('btn-0'),
+            document.getElementById('btn-1'),
+            document.getElementById('btn-2'),
+            document.getElementById('btn-3')
+        ];
+
+        // --- VARIABEL GAME ---
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = QUESTION_TIME_LIMIT;
+        let timerInterval = null;
+        let playerName = "Pemain";
+        
+        const answerSymbols = ['A', 'B', 'C', 'D'];
+
+
+        // --- FUNGSI UTILITY (Mengacak) ---
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        // --- FUNGSI-FUNGSI GAME ---
+
+        function startGame() {
+            playerName = playerNameInput.value.trim() || "Pemain";
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            shuffleArray(questions);
+            
+            lobbyScreen.classList.remove('active');
+            resultsScreen.classList.remove('active');
+            quizScreen.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            resetFeedback();
+            
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+            
+            let currentQuestion = questions[currentQuestionIndex];
+            
+            shuffleArray(currentQuestion.answers);
+            
+            questionTitleEl.innerText = currentQuestion.question;
+            questionCountEl.innerText = `${currentQuestionIndex + 1} / ${questions.length}`;
+            scoreEl.innerText = score;
+            
+            for (let i = 0; i < currentQuestion.answers.length; i++) {
+                const answer = currentQuestion.answers[i];
+                const button = allAnswerButtons[i]; 
+                
+                button.querySelector('span:first-child').innerText = answerSymbols[i];
+                button.querySelector('.answer-text').innerText = answer.text;
+                button.dataset.correct = answer.correct;
+            }
+            
+            startTimer();
+        }
+
+        function startTimer() {
+            timeLeft = QUESTION_TIME_LIMIT;
+            timerBarFill.style.width = '100%';
+            timerBarFill.style.transition = 'none'; 
+            
+            void timerBarFill.offsetWidth; 
+            
+            timerBarFill.style.transition = `width ${QUESTION_TIME_LIMIT}s linear`;
+            timerBarFill.style.width = '0%';
+            
+            clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    selectAnswer(null); 
+                }
+            }, 1000);
+        }
+
+        function selectAnswer(e) {
+            clearInterval(timerInterval);
+            
+            let isCorrect = false;
+            let selectedButton = null;
+
+            if (e) {
+                selectedButton = e.currentTarget;
+                isCorrect = selectedButton.dataset.correct === 'true';
+            }
+
+            answerButtons.forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                selectedButton.classList.add('correct');
+                let pointsEarned = 500 + (timeLeft * POINTS_PER_SECOND);
+                score += pointsEarned;
+                scoreEl.innerText = score;
+            } else {
+                if (selectedButton) {
+                    selectedButton.classList.add('incorrect');
+                }
+                answerButtons.forEach(btn => {
+                    if (btn.dataset.correct === 'true') {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 2000);
+        }
+
+        function resetFeedback() {
+            answerButtons.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('correct');
+                btn.classList.remove('incorrect');
+            });
+        }
+
+        function showResults() {
+            quizScreen.classList.remove('active');
+            resultsScreen.classList.add('active');
+            
+            playerNameFinal.innerText = `Selamat, ${playerName}!`;
+            finalScore.innerText = score;
+        }
+
+        // --- EVENT LISTENERS ---
+
+        joinButton.addEventListener('click', startGame);
+
+        playAgainButton.addEventListener('click', startGame);
+
+        answerButtons.forEach(button => {
+            button.addEventListener('click', selectAnswer);
+        });
+    </script>
+</body>
+</html>
