@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Cepat ✨</title>
+    <title>Quick Quiz ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
@@ -39,6 +39,8 @@
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
+            /* Tambah margin bawah agar konten tidak tertutup footer */
+            margin-bottom: 50px; 
         }
         
         @keyframes fadeIn {
@@ -55,10 +57,10 @@
             width: 120px;
             height: 120px;
             margin: 0 auto 30px;
-            border-radius: 50%; /* Membuat gambar logo menjadi lingkaran */
-            object-fit: cover; /* Memastikan gambar menutupi area tanpa terdistorsi */
-            padding: 8px; /* Padding di dalam lingkaran */
-            background-color: #ff5722; /* Warna latar belakang lingkaran logo */
+            border-radius: 50%;
+            object-fit: cover;
+            padding: 8px;
+            background-color: #ff5722;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(255, 255, 255, 0.2);
             border: 2px solid #ffffff;
         }
@@ -221,25 +223,41 @@
             font-weight: 900;
             text-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
         }
+        
+        /* 🔥 STYLING BARU UNTUK COPYRIGHT FOOTER 🔥 */
+        #main-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.15); /* Transparan gelap */
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
 
     <div id="lobby-screen" class="screen active">
-        <img id="logo-placeholder" src="https://files.catbox.moe/j6ypiu.jpg" alt="Logo Kuis Anda">
+        <img id="logo-placeholder" src="https://files.catbox.moe/j6ypiu.jpg" alt="Quiz Logo">
         
-        <h1>Kuis Cepat✨</h1>
-        <input type="text" id="player-name" placeholder="Masukkan nama Anda..." required>
-        <button id="join-btn" class="btn">Mulai Kuis!</button>
+        <h1>Quick Quiz ✨</h1>
+        <input type="text" id="player-name" placeholder="Enter your name..." required>
+        <button id="join-btn" class="btn">Start Quiz!</button>
     </div>
 
     <div id="quiz-screen" class="screen">
         <div class="quiz-header">
             <div class="question-info">
-                Soal <span id="question-count">1 / 5</span>
+                Question <span id="question-count">1 / 5</span>
             </div>
             <div class="score-info">
-                Skor: <span id="score">0</span>
+                Score: <span id="score">0</span>
             </div>
         </div>
 
@@ -247,35 +265,37 @@
             <div id="timer-bar-fill"></div>
         </div>
 
-        <h2 id="question-title">Ini adalah teks pertanyaannya?</h2>
+        <h2 id="question-title">This is the question text?</h2>
 
         <div class="answer-grid">
             <button class="answer-btn" id="btn-0">
-                <span>A</span> <span class="answer-text">Jawaban 1</span>
+                <span>A</span> <span class="answer-text">Answer 1</span>
             </button>
             <button class="answer-btn" id="btn-1">
-                <span>B</span> <span class="answer-text">Jawaban 2</span>
+                <span>B</span> <span class="answer-text">Answer 2</span>
             </button>
             <button class="answer-btn" id="btn-2">
-                <span>C</span> <span class="answer-text">Jawaban 3</span>
+                <span>C</span> <span class="answer-text">Answer 3</span>
             </button>
             <button class="answer-btn" id="btn-3">
-                <span>D</span> <span class="answer-text">Jawaban 4</span>
+                <span>D</span> <span class="answer-text">Answer 4</span>
             </button>
         </div>
     </div>
 
     <div id="results-screen" class="screen">
-        <h1>🎉 Kuis Selesai! 🎉</h1>
-        <h2 id="player-name-final">Halo, Pemain!</h2>
-        <h3>Skor Akhir Anda:</h3>
+        <h1>🎉 Quiz Finished! 🎉</h1>
+        <h2 id="player-name-final">Hello, Player!</h2>
+        <h3>Your Final Score:</h3>
         <h1 id="final-score">0</h1>
-        <button id="play-again-btn" class="btn">Main Lagi</button>
+        <button id="play-again-btn" class="btn">Play Again</button>
     </div>
 
-
+    <footer id="main-footer">
+        &copy; 2024 Quick Quiz. All rights reserved. | Created by **Team TKJ Crewmate**
+    </footer>
     <script>
-        // --- DATABASE PERTANYAAN ---
+        // --- QUESTION DATABASE (TOTAL 20 QUESTIONS) ---
         const questions = [
             {
                 question: "Which one is NOT a fruit?",
@@ -305,12 +325,12 @@
                 ]
             },
             {
-                question: "What is 'dog' in Indonesian?",
+                question: "What is the largest organ in the human body?",
                 answers: [
-                    { text: "Kucing", correct: false },
-                    { text: "Anjing", correct: true },
-                    { text: "Ikan", correct: false },
-                    { text: "Burung", correct: false }
+                    { text: "Heart", correct: false },
+                    { text: "Liver", correct: false },
+                    { text: "Skin", correct: true },
+                    { text: "Brain", correct: false }
                 ]
             },
             {
@@ -330,14 +350,140 @@
                     { text: "Mars", correct: true },
                     { text: "Saturn", correct: false }
                 ]
+            },
+            {
+                question: "Who invented the light bulb?",
+                answers: [
+                    { text: "Nikola Tesla", correct: false },
+                    { text: "Thomas Edison", correct: true },
+                    { text: "Albert Einstein", correct: false },
+                    { text: "Isaac Newton", correct: false }
+                ]
+            },
+            {
+                question: "What does 'HTML' stand for?",
+                answers: [
+                    { text: "Hyper Trainer Markup Language", correct: false },
+                    { text: "Hyper Text Markup Language", correct: true },
+                    { text: "High Tech Modern Language", correct: false },
+                    { text: "Home Tool Markup Language", correct: false }
+                ]
+            },
+            {
+                question: "How many colors are in a rainbow?",
+                answers: [
+                    { text: "5", correct: false },
+                    { text: "6", correct: false },
+                    { text: "7", correct: true },
+                    { text: "8", correct: false }
+                ]
+            },
+            {
+                question: "Which animal is known as the 'King of the Jungle'?",
+                answers: [
+                    { text: "Tiger", correct: false },
+                    { text: "Elephant", correct: false },
+                    { text: "Lion", correct: true },
+                    { text: "Bear", correct: false }
+                ]
+            },
+            {
+                question: "Which continent is the country of Egypt located in?",
+                answers: [
+                    { text: "Asia", correct: false },
+                    { text: "Europe", correct: false },
+                    { text: "Africa", correct: true },
+                    { text: "America", correct: false }
+                ]
+            },
+            {
+                question: "What is the currency of the United Kingdom?",
+                answers: [
+                    { text: "Dollar", correct: false },
+                    { text: "Euro", correct: false },
+                    { text: "Pound Sterling", correct: true },
+                    { text: "Yen", correct: false }
+                ]
+            },
+            {
+                question: "Water boils at what temperature in Celsius?",
+                answers: [
+                    { text: "0°C", correct: false },
+                    { text: "50°C", correct: false },
+                    { text: "100°C", correct: true },
+                    { text: "200°C", correct: false }
+                ]
+            },
+            {
+                question: "What is the chemical element symbolized by 'O'?",
+                answers: [
+                    { text: "Gold", correct: false },
+                    { text: "Oxygen", correct: true },
+                    { text: "Iron", correct: false },
+                    { text: "Silver", correct: false }
+                ]
+            },
+            {
+                question: "Which superhero wears a red and blue costume and can fly?",
+                answers: [
+                    { text: "Batman", correct: false },
+                    { text: "Spider-Man", correct: false },
+                    { text: "Superman", correct: true },
+                    { text: "Wonder Woman", correct: false }
+                ]
+            },
+            {
+                question: "The famous iron lattice tower in Paris is called...",
+                answers: [
+                    { text: "Great Wall of China", correct: false },
+                    { text: "Leaning Tower of Pisa", correct: false },
+                    { text: "Eiffel Tower", correct: true },
+                    { text: "Statue of Liberty", correct: false }
+                ]
+            },
+            {
+                question: "What is the result of $7 \times 8$?",
+                answers: [
+                    { text: "49", correct: false },
+                    { text: "56", correct: true },
+                    { text: "64", correct: false },
+                    { text: "72", correct: false }
+                ]
+            },
+            {
+                question: "What is the capital city of Australia?",
+                answers: [
+                    { text: "Sydney", correct: false },
+                    { text: "Melbourne", correct: false },
+                    { text: "Canberra", correct: true },
+                    { text: "Perth", correct: false }
+                ]
+            },
+            {
+                question: "What is the longest bone in the human body?",
+                answers: [
+                    { text: "Ulna", correct: false },
+                    { text: "Radius", correct: false },
+                    { text: "Femur (Thigh bone)", correct: true },
+                    { text: "Tibia", correct: false }
+                ]
+            },
+            {
+                question: "Which of the following is NOT a web browser?",
+                answers: [
+                    { text: "Mozilla Firefox", correct: false },
+                    { text: "Microsoft Word", correct: true },
+                    { text: "Google Chrome", correct: false },
+                    { text: "Safari", correct: false }
+                ]
             }
         ];
 
-        // --- PENGATURAN GAME ---
+        // --- GAME SETTINGS ---
         const QUESTION_TIME_LIMIT = 10;
         const POINTS_PER_SECOND = 50;
 
-        // --- MENGAMBIL ELEMEN DARI HTML ---
+        // --- HTML ELEMENTS ---
         const lobbyScreen = document.getElementById('lobby-screen');
         const quizScreen = document.getElementById('quiz-screen');
         const resultsScreen = document.getElementById('results-screen');
@@ -347,7 +493,7 @@
 
         const playerNameInput = document.getElementById('player-name');
         const playerNameFinal = document.getElementById('player-name-final');
-        const finalScoreEl = document.getElementById('final-score'); // 🔥 Ambil elemen skor akhir
+        const finalScoreEl = document.getElementById('final-score');
 
         const questionCountEl = document.getElementById('question-count');
         const scoreEl = document.getElementById('score');
@@ -363,17 +509,17 @@
             document.getElementById('btn-3')
         ];
 
-        // --- VARIABEL GAME ---
+        // --- GAME VARIABLES ---
         let currentQuestionIndex = 0;
-        let score = 0; // Inilah variabel yang menyimpan skor!
+        let score = 0;
         let timeLeft = QUESTION_TIME_LIMIT;
         let timerInterval = null;
-        let playerName = "Pemain";
+        let playerName = "Player";
         
         const answerSymbols = ['A', 'B', 'C', 'D'];
 
 
-        // --- FUNGSI UTILITY (Mengacak) ---
+        // --- UTILITY FUNCTION (Shuffle) ---
         
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -382,13 +528,14 @@
             }
         }
         
-        // --- FUNGSI-FUNGSI GAME ---
+        // --- GAME FUNCTIONS ---
 
         function startGame() {
-            playerName = playerNameInput.value.trim() || "Pemain";
+            playerName = playerNameInput.value.trim() || "Player";
             currentQuestionIndex = 0;
-            score = 0; // Reset skor ke 0 saat mulai game baru
+            score = 0;
             
+            // Shuffle the questions order
             shuffleArray(questions);
             
             lobbyScreen.classList.remove('active');
@@ -401,6 +548,7 @@
         function loadQuestion() {
             resetFeedback();
             
+            // Check if all questions have been answered
             if (currentQuestionIndex >= questions.length) {
                 showResults();
                 return;
@@ -408,10 +556,12 @@
             
             let currentQuestion = questions[currentQuestionIndex];
             
+            // Shuffle the answers order for the current question
             shuffleArray(currentQuestion.answers);
             
             questionTitleEl.innerText = currentQuestion.question;
-            questionCountEl.innerText = `${currentQuestionIndex + 1} / ${questions.length}`;
+            // Display question count: (Question X / Total Questions)
+            questionCountEl.innerText = `${currentQuestionIndex + 1} / ${questions.length}`; 
             scoreEl.innerText = score;
             
             for (let i = 0; i < currentQuestion.answers.length; i++) {
@@ -431,8 +581,10 @@
             timerBarFill.style.width = '100%';
             timerBarFill.style.transition = 'none'; 
             
+            // Force reflow/repaint to reset transition
             void timerBarFill.offsetWidth; 
             
+            // Set transition for the countdown animation
             timerBarFill.style.transition = `width ${QUESTION_TIME_LIMIT}s linear`;
             timerBarFill.style.width = '0%';
             
@@ -442,7 +594,7 @@
                 timeLeft--;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    selectAnswer(null); 
+                    selectAnswer(null); // Time out = wrong answer
                 }
             }, 1000);
         }
@@ -458,17 +610,20 @@
                 isCorrect = selectedButton.dataset.correct === 'true';
             }
 
+            // Disable all buttons after one answer is selected
             answerButtons.forEach(btn => btn.disabled = true);
 
             if (isCorrect) {
                 selectedButton.classList.add('correct');
+                // Calculate score: base score (500) + time bonus
                 let pointsEarned = 500 + (timeLeft * POINTS_PER_SECOND);
-                score += pointsEarned; // SKOR DIHITUNG DAN DITAMBAH DI SINI
-                scoreEl.innerText = score; // Update skor di header saat itu juga
+                score += pointsEarned;
+                scoreEl.innerText = score;
             } else {
                 if (selectedButton) {
                     selectedButton.classList.add('incorrect');
                 }
+                // Show the correct answer
                 answerButtons.forEach(btn => {
                     if (btn.dataset.correct === 'true') {
                         btn.classList.add('correct');
@@ -476,6 +631,7 @@
                 });
             }
             
+            // Move to the next question after 2 seconds
             setTimeout(() => {
                 currentQuestionIndex++;
                 loadQuestion();
@@ -494,8 +650,8 @@
             quizScreen.classList.remove('active');
             resultsScreen.classList.add('active');
             
-            playerNameFinal.innerText = `Selamat, ${playerName}!`;
-            finalScoreEl.innerText = score; // SKOR AKHIR DITAMPILKAN DI SINI
+            playerNameFinal.innerText = `Congratulations, ${playerName}!`;
+            finalScoreEl.innerText = score;
         }
 
         // --- EVENT LISTENERS ---
