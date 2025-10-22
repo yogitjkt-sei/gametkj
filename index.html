@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz ! ✨</title>
+    <title>Kuis Cepat ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Montserrat', sans-serif, Arial;
-            background: linear-gradient(135deg, #0f4c75, #3282b8); 
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
             color: #ffffff;
             display: flex;
             justify-content: center;
@@ -50,7 +50,7 @@
             display: block;
         }
         
-        /* 🔥 DESAIN BARU UNTUK LOGO GAMBAR (IMG) 🔥 */
+        /* DESAIN LOGO GAMBAR (IMG) */
         #logo-placeholder {
             width: 120px;
             height: 120px;
@@ -62,16 +62,14 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(255, 255, 255, 0.2);
             border: 2px solid #ffffff;
         }
-        /* --------------------------------- */
-
 
         /* Tombol Utama (Start, Play Again) */
         .btn {
-            background-color: #ff5722; 
+            background-color: #ff5722;
             color: white;
             border: none;
             padding: 15px 40px;
-            border-radius: 50px; 
+            border-radius: 50px;
             font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
@@ -123,7 +121,7 @@
         #timer-bar-fill {
             height: 100%;
             width: 100%;
-            background-color: #ffee58; 
+            background-color: #ffee58;
             transition: width 0.1s linear;
         }
 
@@ -140,7 +138,7 @@
         /* Grid Jawaban */
         .answer-grid {
             display: grid;
-            grid-template-columns: 1fr; 
+            grid-template-columns: 1fr;
             gap: 12px;
         }
         @media (min-width: 500px) {
@@ -191,19 +189,19 @@
         /* Warna Tombol Jawaban (Dipersonalisasi) */
         #btn-0 { background-color: #e53935; }
         #btn-1 { background-color: #1e88e5; }
-        #btn-2 { background-color: #fdd835; color: #333;} 
+        #btn-2 { background-color: #fdd835; color: #333;}
         #btn-3 { background-color: #43a047; }
 
         /* Feedback (Koreksi) */
         .answer-btn.correct {
-            background-color: #66bb6a !important; 
+            background-color: #66bb6a !important;
             transform: scale(1.02);
             border: 3px solid #ffee58;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         .answer-btn.incorrect {
-            background-color: #ef5350 !important; 
+            background-color: #ef5350 !important;
             opacity: 0.8;
         }
 
@@ -229,6 +227,7 @@
 
     <div id="lobby-screen" class="screen active">
         <img id="logo-placeholder" src="https://files.catbox.moe/j6ypiu.jpg" alt="Logo Kuis Anda">
+        
         <h1>Kuis Cepat✨</h1>
         <input type="text" id="player-name" placeholder="Masukkan nama Anda..." required>
         <button id="join-btn" class="btn">Mulai Kuis!</button>
@@ -348,6 +347,7 @@
 
         const playerNameInput = document.getElementById('player-name');
         const playerNameFinal = document.getElementById('player-name-final');
+        const finalScoreEl = document.getElementById('final-score'); // 🔥 Ambil elemen skor akhir
 
         const questionCountEl = document.getElementById('question-count');
         const scoreEl = document.getElementById('score');
@@ -365,7 +365,7 @@
 
         // --- VARIABEL GAME ---
         let currentQuestionIndex = 0;
-        let score = 0;
+        let score = 0; // Inilah variabel yang menyimpan skor!
         let timeLeft = QUESTION_TIME_LIMIT;
         let timerInterval = null;
         let playerName = "Pemain";
@@ -387,7 +387,7 @@
         function startGame() {
             playerName = playerNameInput.value.trim() || "Pemain";
             currentQuestionIndex = 0;
-            score = 0;
+            score = 0; // Reset skor ke 0 saat mulai game baru
             
             shuffleArray(questions);
             
@@ -463,8 +463,8 @@
             if (isCorrect) {
                 selectedButton.classList.add('correct');
                 let pointsEarned = 500 + (timeLeft * POINTS_PER_SECOND);
-                score += pointsEarned;
-                scoreEl.innerText = score;
+                score += pointsEarned; // SKOR DIHITUNG DAN DITAMBAH DI SINI
+                scoreEl.innerText = score; // Update skor di header saat itu juga
             } else {
                 if (selectedButton) {
                     selectedButton.classList.add('incorrect');
@@ -495,7 +495,7 @@
             resultsScreen.classList.add('active');
             
             playerNameFinal.innerText = `Selamat, ${playerName}!`;
-            finalScore.innerText = score;
+            finalScoreEl.innerText = score; // SKOR AKHIR DITAMPILKAN DI SINI
         }
 
         // --- EVENT LISTENERS ---
